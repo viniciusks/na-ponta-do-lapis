@@ -59,39 +59,10 @@ app.get('/:uid', (req, res) => {
     });
 });
 
-// TODO: Ajustar rota de CRIAÇÃO
 app.post('/', async (req, res) => {
   logger.info('Iniciando criação de usuário');
 
-  const {
-    uid,
-    name,
-    birthday,
-    email,
-    country,
-    state,
-    city,
-    roles,
-    action,
-    artisticFormation,
-    professionalArt,
-    englishLevel,
-    spanishLevel,
-    spiritCenter,
-    otherLanguages,
-    whatsapp,
-    isWorker,
-    isPlayer,
-    isTheater,
-    isLiterature,
-    isDancer,
-    isEFASCoordinator,
-    isCONCAFRASCoordinator,
-    isVisualArt,
-    isActive,
-    instruments,
-    image,
-  } = req.body;
+  const { uid, name, birthday, email, country, state, city, roles } = req.body;
 
   logger.info('Inserindo usuário no firestore');
 
@@ -99,6 +70,7 @@ app.post('/', async (req, res) => {
     .collection('users')
     .doc(uid)
     .set({
+      uid,
       name,
       birthday,
       email,
@@ -106,25 +78,6 @@ app.post('/', async (req, res) => {
       state,
       city,
       roles,
-      action,
-      artisticFormation,
-      professionalArt,
-      englishLevel,
-      spanishLevel,
-      spiritCenter,
-      otherLanguages,
-      whatsapp,
-      isWorker,
-      isPlayer,
-      isTheater,
-      isLiterature,
-      isDancer,
-      isEFASCoordinator,
-      isCONCAFRASCoordinator,
-      isVisualArt,
-      isActive,
-      instruments,
-      image,
     })
     .then(() => {
       logger.info(`Usuário inserido com id ${uid}`);
@@ -134,38 +87,10 @@ app.post('/', async (req, res) => {
     });
 });
 
-// TODO: Ajustar rota de UPDATE
 app.put('/:id', async (req, res) => {
   logger.info('Iniciando atualização de usuário');
   let id = req.params.id;
-  const {
-    name,
-    birthday,
-    email,
-    country,
-    state,
-    city,
-    roles,
-    action,
-    artisticFormation,
-    professionalArt,
-    englishLevel,
-    spanishLevel,
-    spiritCenter,
-    otherLanguages,
-    whatsapp,
-    isWorker,
-    isPlayer,
-    isTheater,
-    isLiterature,
-    isDancer,
-    isEFASCoordinator,
-    isCONCAFRASCoordinator,
-    isVisualArt,
-    isActive,
-    instruments,
-    image,
-  } = req.body;
+  const { name, birthday, email, country, state, city, roles } = req.body;
 
   await db
     .collection('users')
@@ -178,25 +103,6 @@ app.put('/:id', async (req, res) => {
       state,
       city,
       roles,
-      action,
-      artisticFormation,
-      professionalArt,
-      englishLevel,
-      spanishLevel,
-      spiritCenter,
-      otherLanguages,
-      whatsapp,
-      isWorker,
-      isPlayer,
-      isTheater,
-      isLiterature,
-      isDancer,
-      isEFASCoordinator,
-      isCONCAFRASCoordinator,
-      isVisualArt,
-      isActive,
-      instruments,
-      image,
     })
     .then(() => {
       let msg = `Usuário de id ${id} atualizado com sucesso!`;

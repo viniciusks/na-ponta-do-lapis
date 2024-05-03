@@ -6,4 +6,5 @@ export interface User {
   state: string;
   city: string;
   roles: string[];
+  isApproved: boolean;
 }

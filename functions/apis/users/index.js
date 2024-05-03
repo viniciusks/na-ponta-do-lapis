@@ -62,7 +62,17 @@ app.get('/:uid', (req, res) => {
 app.post('/', async (req, res) => {
   logger.info('Iniciando criação de usuário');
 
-  const { uid, name, birthday, email, country, state, city, roles } = req.body;
+  const {
+    uid,
+    name,
+    birthday,
+    email,
+    country,
+    state,
+    city,
+    roles,
+    isApproved,
+  } = req.body;
 
   logger.info('Inserindo usuário no firestore');
 
@@ -78,6 +88,7 @@ app.post('/', async (req, res) => {
       state,
       city,
       roles,
+      isApproved,
     })
     .then(() => {
       logger.info(`Usuário inserido com id ${uid}`);
@@ -90,7 +101,8 @@ app.post('/', async (req, res) => {
 app.put('/:id', async (req, res) => {
   logger.info('Iniciando atualização de usuário');
   let id = req.params.id;
-  const { name, birthday, email, country, state, city, roles } = req.body;
+  const { name, birthday, email, country, state, city, roles, isApproved } =
+    req.body;
 
   await db
     .collection('users')
@@ -103,6 +115,7 @@ app.put('/:id', async (req, res) => {
       state,
       city,
       roles,
+      isApproved,
     })
     .then(() => {
       let msg = `Usuário de id ${id} atualizado com sucesso!`;

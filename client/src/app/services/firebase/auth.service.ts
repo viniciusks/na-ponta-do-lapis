@@ -16,14 +16,15 @@ export class AuthService {
 
   createUserWithEmailAndPassword(
     email: string,
-    password: string
+    password: string,
   ): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
-  signInWithEmailAndPassword(email: string, password: string) {
-    signInWithEmailAndPassword(this.auth, email, password).then((response) => {
-      console.log(response);
-    });
+  signInWithEmailAndPassword(
+    email: string,
+    password: string,
+  ): Promise<UserCredential> {
+    return signInWithEmailAndPassword(this.auth, email, password);
   }
 }

@@ -8,8 +8,8 @@ const db = admin.firestore();
 const logger = functions.logger;
 const app = express();
 
-// Automatically allow cross-origin requests
-app.use(cors({ origin: true }));
+// Permitir automaticamente solicitações de cross-origin
+app.use(cors({origin: true}));
 
 app.get('/', async (req, res) => {
   logger.info('Iniciando função de usuários.');
@@ -26,10 +26,7 @@ app.get('/', async (req, res) => {
       });
     });
 
-  res.status(200).json({
-    message: 'Usuários selecionados com sucesso!',
-    data: users,
-  });
+  res.status(200).json(users);
 });
 
 app.get('/:uid', (req, res) => {
@@ -42,14 +39,14 @@ app.get('/:uid', (req, res) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        let msg = `User founded with uid ${uid}`;
+        let msg = `Usuário encontrado com uid ${uid}`;
         logger.info(msg);
         res.status(200).json({
           message: msg,
           data: doc.data(),
         });
       } else {
-        let msg = `User NOT founded with uid ${uid}`;
+        let msg = `Usuário não encontrado com uid ${uid}`;
         logger.error(msg);
         res.status(404).json({
           message: msg,
@@ -59,38 +56,20 @@ app.get('/:uid', (req, res) => {
     });
 });
 
-// TODO: Ajustar rota de CRIAÇÃO
 app.post('/', async (req, res) => {
   logger.info('Iniciando criação de usuário');
 
   const {
     uid,
     name,
-    birthday,
     email,
-    country,
-    state,
+    birthdate,
     city,
-    roles,
-    action,
-    artisticFormation,
-    professionalArt,
-    englishLevel,
-    spanishLevel,
-    spiritCenter,
-    otherLanguages,
-    whatsapp,
-    isWorker,
-    isPlayer,
-    isTheater,
-    isLiterature,
-    isDancer,
-    isEFASCoordinator,
-    isCONCAFRASCoordinator,
-    isVisualArt,
-    isActive,
-    instruments,
-    image,
+    state,
+    country,
+    role,
+    createdAt,
+    updatedAt,
   } = req.body;
 
   logger.info('Inserindo usuário no firestore');
@@ -100,106 +79,54 @@ app.post('/', async (req, res) => {
     .doc(uid)
     .set({
       name,
-      birthday,
       email,
-      country,
-      state,
+      birthdate,
       city,
-      roles,
-      action,
-      artisticFormation,
-      professionalArt,
-      englishLevel,
-      spanishLevel,
-      spiritCenter,
-      otherLanguages,
-      whatsapp,
-      isWorker,
-      isPlayer,
-      isTheater,
-      isLiterature,
-      isDancer,
-      isEFASCoordinator,
-      isCONCAFRASCoordinator,
-      isVisualArt,
-      isActive,
-      instruments,
-      image,
+      state,
+      country,
+      role,
+      createdAt,
+      updatedAt,
     })
     .then(() => {
       logger.info(`Usuário inserido com id ${uid}`);
       res
         .status(201)
-        .json({ message: `Usuário inserido com id ${uid}`, data: [] });
+        .json({message: `Usuário inserido com id ${uid}`, data: []});
     });
 });
 
-// TODO: Ajustar rota de UPDATE
-app.put('/:id', async (req, res) => {
+app.put('/:uid', async (req, res) => {
   logger.info('Iniciando atualização de usuário');
-  let id = req.params.id;
+  let uid = req.params.uid;
   const {
     name,
-    birthday,
     email,
-    country,
-    state,
+    birthdate,
     city,
-    roles,
-    action,
-    artisticFormation,
-    professionalArt,
-    englishLevel,
-    spanishLevel,
-    spiritCenter,
-    otherLanguages,
-    whatsapp,
-    isWorker,
-    isPlayer,
-    isTheater,
-    isLiterature,
-    isDancer,
-    isEFASCoordinator,
-    isCONCAFRASCoordinator,
-    isVisualArt,
-    isActive,
-    instruments,
-    image,
+    state,
+    country,
+    role,
+    createdAt,
+    updatedAt,
   } = req.body;
 
   await db
     .collection('users')
-    .doc(id)
+    .doc(uid)
     .set({
       name,
-      birthday,
       email,
-      country,
-      state,
+      birthdate,
       city,
-      roles,
-      action,
-      artisticFormation,
-      professionalArt,
-      englishLevel,
-      spanishLevel,
-      spiritCenter,
-      otherLanguages,
-      whatsapp,
-      isWorker,
-      isPlayer,
-      isTheater,
-      isLiterature,
-      isDancer,
-      isEFASCoordinator,
-      isCONCAFRASCoordinator,
-      isVisualArt,
-      isActive,
-      instruments,
-      image,
+      state,
+      country,
+      role,
+      createdAt,
+      updatedAt,
     })
     .then(() => {
-      let msg = `Usuário de id ${id} atualizado com sucesso!`;
+      let msg = `Usuário de id ${uid} atualizado com sucesso!`;
       logger.info(msg);
       res.status(200).json({
         message: msg,
@@ -215,15 +142,15 @@ app.put('/:id', async (req, res) => {
     });
 });
 
-app.delete('/:id', async (req, res) => {
-  let id = req.params.id;
+app.delete('/:uid', async (req, res) => {
+  let uid = req.params.uid;
 
   await db
     .collection('users')
-    .doc(id)
+    .doc(uid)
     .delete()
     .then(() => {
-      let msg = `Usuário de id ${id} deletado com sucesso!`;
+      let msg = `Usuário de id ${uid} deletado com sucesso!`;
       logger.info(msg);
       res.status(200).json({
         message: msg,

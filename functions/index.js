@@ -3,7 +3,7 @@ const serviceAccount = require('./service-account/javitech.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'gs://alegriatech-2bf22.appspot.com',
+  storageBucket: 'gs://javitech-8797d.appspot.com',
 });
 
 const usersApi = require('./apis/users');

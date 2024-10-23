@@ -6,6 +6,7 @@ export interface User {
   state: string;
   country: string;
   role: string;
+  isEnable: boolean;
   createdAt: Date;
   updatedAt: Date;
   uid?: string;

@@ -68,6 +68,7 @@ app.post('/', async (req, res) => {
     state,
     country,
     role,
+    isEnable,
     createdAt,
     updatedAt,
   } = req.body;
@@ -85,6 +86,7 @@ app.post('/', async (req, res) => {
       state,
       country,
       role,
+      isEnable,
       createdAt,
       updatedAt,
     })
@@ -107,6 +109,7 @@ app.put('/:uid', async (req, res) => {
     state,
     country,
     role,
+    isEnable,
     createdAt,
     updatedAt,
   } = req.body;
@@ -122,6 +125,7 @@ app.put('/:uid', async (req, res) => {
       state,
       country,
       role,
+      isEnable,
       createdAt,
       updatedAt,
     })

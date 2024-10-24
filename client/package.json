@@ -22,7 +22,6 @@
     "@angular/router": "^17.3.0",
     "@angular/ssr": "^17.3.4",
     "express": "5.0.0",
-    "primeng": "^17.18.11",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
@@ -40,6 +39,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.3.3",
     "typescript": "~5.4.2"
   }
 }

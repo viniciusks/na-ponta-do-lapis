@@ -18,27 +18,25 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Documents',
+        label: 'Produtos',
         items: [
           {
-            label: 'New',
-            icon: 'pi pi-plus',
-          },
-          {
-            label: 'Search',
-            icon: 'pi pi-search',
+            label: 'Usuários',
+            icon: 'pi pi-users',
+            routerLink: '/admin/users',
           },
         ],
       },
       {
-        label: 'Profile',
+        label: 'Deseja sair?',
         items: [
           {
-            label: 'Settings',
-            icon: 'pi pi-cog',
+            label: 'Tela inicial',
+            icon: 'pi pi-home',
+            routerLink: '/',
           },
           {
-            label: 'Logout',
+            label: 'Sair',
             icon: 'pi pi-sign-out',
           },
         ],

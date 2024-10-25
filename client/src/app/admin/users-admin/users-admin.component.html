@@ -1,1 +1,35 @@
-<p>users-admin works!</p>
+<p-toast />
+<div class="d-flex align-items justify-content-space-between">
+    <div>
+        <h1>Usuários</h1>
+    </div>
+    <div>
+        <p-button
+            icon="pi pi-check"
+            iconPos="left"
+            label="Novo usuário"
+            styleClass="p-button-success"
+        ></p-button>
+    </div>
+</div>
+<hr />
+<div>
+    <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.code }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.category }}</td>
+                <td>{{ user.quantity }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

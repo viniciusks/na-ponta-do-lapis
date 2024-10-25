@@ -30,12 +30,48 @@
   display: flex;
 }
 
-.gap-1 {
+.gap-05 {
   gap: 0.5rem;
+}
+
+.gap-1 {
+  gap: 1rem;
 }
 
 .full-height {
   height: 98vh;
+}
+
+.f-grow-015 {
+  flex-grow: 0.15;
+}
+
+.f-grow-05 {
+  flex-grow: 0.5;
+}
+
+.f-grow-1 {
+  flex-grow: 1;
+}
+
+.f-grow-2 {
+  flex-grow: 2;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.align-items {
+  align-items: center;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-space-between {
+  justify-content: space-between;
 }
 
 /* Classes das fontes */

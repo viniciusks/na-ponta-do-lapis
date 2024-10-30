@@ -62,6 +62,14 @@
   width: 100%;
 }
 
+.w-40 {
+  width: 40%;
+}
+
+.w-49 {
+  width: 49%;
+}
+
 .align-items {
   align-items: center;
 }
@@ -71,6 +79,25 @@
 }
 
 .justify-content-space-between {
+  justify-content: space-between;
+}
+
+.min-w-50 {
+  min-width: 50rem;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
 }
 

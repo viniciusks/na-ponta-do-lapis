@@ -9,12 +9,13 @@
             iconPos="left"
             label="Novo usuário"
             styleClass="p-button-success"
+            routerLink="/admin/users/forms"
         ></p-button>
     </div>
 </div>
 <hr />
 <div>
-    <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table styleClass="min-w-50" [value]="users">
         <ng-template pTemplate="header">
             <tr>
                 <th>Code</th>

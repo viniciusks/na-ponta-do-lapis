@@ -1,7 +1,8 @@
-import { Routes } from '@angular/router'
-import { UsersAdminComponent } from './admin/users-admin/users-admin.component'
-import { HomeAdminComponent } from './admin/home-admin/home-admin.component'
-import { AdminComponent } from './admin/admin.component'
+import { Routes } from '@angular/router';
+import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
+import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
+import { AdminComponent } from './admin/admin.component';
+import { UsersFormsComponent } from './admin/users-admin/users-forms/users-forms.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,10 @@ export const routes: Routes = [
         path: 'users',
         component: UsersAdminComponent,
       },
+      {
+        path: 'users/forms',
+        component: UsersFormsComponent,
+      },
     ],
   },
-]
+];

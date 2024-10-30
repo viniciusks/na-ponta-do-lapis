@@ -5,11 +5,19 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { User } from '../../models/user';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-users-admin',
   standalone: true,
-  imports: [ButtonDirective, Ripple, Button, ToastModule, TableModule],
+  imports: [
+    ButtonDirective,
+    Ripple,
+    Button,
+    ToastModule,
+    TableModule,
+    RouterLink,
+  ],
   templateUrl: './users-admin.component.html',
   styleUrl: './users-admin.component.css',
   providers: [MessageService],

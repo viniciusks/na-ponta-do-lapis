@@ -3,8 +3,7 @@
   "overrides": [
     {
       "files": [
-        "*.html",
-        "legacy/**/*.js"
+        "*.html"
       ],
       "options": {
         "tabWidth": 4

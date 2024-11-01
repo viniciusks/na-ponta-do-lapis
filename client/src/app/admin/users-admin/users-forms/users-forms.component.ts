@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Button } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Button } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputMaskModule } from 'primeng/inputmask';
+import { CalendarModule } from 'primeng/calendar';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users-forms',
@@ -19,18 +20,17 @@ import { FormsModule } from '@angular/forms';
     FloatLabelModule,
     InputTextModule,
     FormsModule,
+    InputMaskModule,
+    CalendarModule,
   ],
   templateUrl: './users-forms.component.html',
   styleUrl: './users-forms.component.css',
-  providers: [MessageService, UserService],
+  providers: [UserService],
 })
 export class UsersFormsComponent implements OnInit {
   user: User;
 
-  constructor(
-    private _messageService: MessageService,
-    private _userService: UserService,
-  ) {
+  constructor(private _userService: UserService) {
     this.user = {
       name: '',
       cpf: '',

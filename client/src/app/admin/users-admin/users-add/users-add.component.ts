@@ -17,7 +17,5 @@ import { MessageService } from 'primeng/api';
 export class UsersAddComponent implements OnInit {
   constructor(private _messageService: MessageService) {}
 
-  ngOnInit() {
-    console.log('UsersAddComponent - ngOnInit');
-  }
+  ngOnInit() {}
 }

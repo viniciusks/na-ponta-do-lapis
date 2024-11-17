@@ -41,21 +41,46 @@
     </div>
     <div class="row mt-1">
         <div class="w-49">
-            <label for="username">Nome</label>
-            <input
-                id="username"
-                class="w-100"
-                pInputText
-                [(ngModel)]="user.name"
+            <label for="state">Estado</label>
+            <p-dropdown
+                [options]="states"
+                [(ngModel)]="selectedState"
+                (onChange)="onChangeState($event)"
+                optionLabel="name"
+                placeholder="Selecione o estado"
+                styleClass="w-100"
             />
         </div>
         <div class="w-49">
-            <label for="email">E-mail</label>
-            <input
-                id="email"
-                class="w-100"
-                pInputText
-                [(ngModel)]="user.email"
+            <label for="city">Cidade</label>
+            <p-dropdown
+                [options]="cities"
+                [(ngModel)]="selectedCity"
+                optionLabel="name"
+                placeholder="Selecione a cidade"
+                styleClass="w-100"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="w-49">
+            <label for="state">País</label>
+            <p-dropdown
+                [options]="countries"
+                [(ngModel)]="selectedCountry"
+                optionLabel="name"
+                placeholder="Selecione o país"
+                styleClass="w-100"
+            />
+        </div>
+        <div class="w-49">
+            <label for="city">Cidade</label>
+            <p-dropdown
+                [options]="cities"
+                [(ngModel)]="selectedCity"
+                optionLabel="name"
+                placeholder="Selecione a cidade"
+                styleClass="w-100"
             />
         </div>
     </div>

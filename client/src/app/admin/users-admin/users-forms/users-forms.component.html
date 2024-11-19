@@ -1,3 +1,4 @@
+<p-toast />
 <div class="min-w-50">
     <div class="row">
         <div class="w-49">
@@ -63,7 +64,7 @@
         </div>
     </div>
     <div class="row mt-1">
-        <div class="w-49">
+        <div class="w-100">
             <label for="state">País</label>
             <p-dropdown
                 [options]="countries"
@@ -73,15 +74,14 @@
                 styleClass="w-100"
             />
         </div>
-        <div class="w-49">
-            <label for="city">Cidade</label>
-            <p-dropdown
-                [options]="cities"
-                [(ngModel)]="selectedCity"
-                optionLabel="name"
-                placeholder="Selecione a cidade"
-                styleClass="w-100"
-            />
-        </div>
+    </div>
+    <div class="row mt-1">
+        <button
+            pButton
+            pRipple
+            label="{{ user.uid ? 'Atualizar' : 'Cadastrar' }}"
+            class="w-100 p-button-success"
+            (click)="onSubmit()"
+        ></button>
     </div>
 </div>

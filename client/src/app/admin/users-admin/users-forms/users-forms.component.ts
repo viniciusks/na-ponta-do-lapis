@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -10,6 +10,9 @@ import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
 import { MyDropdownItem } from '../../../models/myDropdownItem';
 import { UtilsService } from '../../../services/utils.service';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-users-forms',
@@ -22,12 +25,15 @@ import { UtilsService } from '../../../services/utils.service';
     InputMaskModule,
     CalendarModule,
     DropdownModule,
+    ButtonModule,
+    RippleModule,
   ],
   templateUrl: './users-forms.component.html',
   styleUrl: './users-forms.component.css',
-  providers: [UtilsService, UserService],
+  providers: [UtilsService, UserService, MessageService],
 })
 export class UsersFormsComponent implements OnInit {
+  @Input() typeForm = '';
   user: User;
   states: MyDropdownItem[];
   selectedState: MyDropdownItem;
@@ -39,6 +45,7 @@ export class UsersFormsComponent implements OnInit {
   constructor(
     private _utilsService: UtilsService,
     private _userService: UserService,
+    private _messageService: MessageService,
   ) {
     this.user = {
       name: '',
@@ -99,5 +106,82 @@ export class UsersFormsComponent implements OnInit {
   onChangeState(event: any) {
     let stateCode = event.value.code;
     this.getCities(stateCode);
+  }
+
+  validationForm() {
+    if (this.user.name == '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'O nome é obrigatório',
+      });
+      return false;
+    }
+
+    if (this.user.cpf == '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'O CPF é obrigatório',
+      });
+      return false;
+    }
+
+    if (this.user.email == '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'O email é obrigatório',
+      });
+      return false;
+    }
+
+    if (this.user.city == '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'A cidade é obrigatória',
+      });
+      return false;
+    }
+
+    if (this.user.state == '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'O estado é obrigatório',
+      });
+      return false;
+    }
+
+    if (this.user.country == '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'O país é obrigatório',
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  onSubmit() {
+    this.user.country = this.selectedCountry.code;
+    this.user.state = this.selectedState.code;
+    this.user.city = this.selectedCity.code;
+    if (this.validationForm()) {
+      if (this.typeForm == 'add') {
+        this._userService.createUser(this.user).subscribe({
+          next: () => {
+            this._messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Usuário criado com sucesso',
+            });
+          },
+        });
+      }
+    }
   }
 }

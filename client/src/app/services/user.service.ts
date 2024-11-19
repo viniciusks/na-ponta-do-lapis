@@ -12,7 +12,7 @@ export class UserService {
 
   getIdentity() {}
 
-  register(user: any) {
+  createUser(user: any) {
     let params = JSON.stringify(user);
     let headers = {
       'Content-Type': 'application/json',

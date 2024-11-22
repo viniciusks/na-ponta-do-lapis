@@ -13,6 +13,10 @@ import { UtilsService } from '../../../services/utils.service';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { MessageService } from 'primeng/api';
+import {
+  auth,
+  createUserWithEmailAndPassword,
+} from '../../../services/firebase-auth.service';
 
 @Component({
   selector: 'app-users-forms',
@@ -172,15 +176,16 @@ export class UsersFormsComponent implements OnInit {
     this.user.city = this.selectedCity.code;
     if (this.validationForm()) {
       if (this.typeForm == 'add') {
-        this._userService.createUser(this.user).subscribe({
-          next: () => {
-            this._messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Usuário criado com sucesso',
-            });
-          },
-        });
+        createUserWithEmailAndPassword(auth, '', '');
+        // this._userService.createUser(this.user).subscribe({
+        //   next: () => {
+        //     this._messageService.add({
+        //       severity: 'success',
+        //       summary: 'Success',
+        //       detail: 'Usuário criado com sucesso',
+        //     });
+        //   },
+        // });
       }
     }
   }

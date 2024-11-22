@@ -80,7 +80,7 @@ export class UsersFormsComponent implements OnInit {
     this._utilsService.getCountries().subscribe((countries: any) => {
       this.countries = countries.map((country: any) => ({
         name: country.nome,
-        code: country.sigla,
+        code: country.nome,
       }));
       this.countries.sort((a, b) => a.name.localeCompare(b.name));
       this.getStates();
@@ -171,21 +171,27 @@ export class UsersFormsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.user.country = this.selectedCountry.code;
-    this.user.state = this.selectedState.code;
-    this.user.city = this.selectedCity.code;
+    this.user.country = this.selectedCountry.name;
+    this.user.state = this.selectedState.name;
+    this.user.city = this.selectedCity.name;
     if (this.validationForm()) {
       if (this.typeForm == 'add') {
-        createUserWithEmailAndPassword(auth, '', '');
-        // this._userService.createUser(this.user).subscribe({
-        //   next: () => {
-        //     this._messageService.add({
-        //       severity: 'success',
-        //       summary: 'Success',
-        //       detail: 'Usuário criado com sucesso',
-        //     });
-        //   },
-        // });
+        createUserWithEmailAndPassword(
+          auth,
+          this.user.email,
+          'napontadolapis',
+        ).then((response: any) => {
+          this.user.uid = response.user.uid;
+          this._userService.createUser(this.user).subscribe({
+            next: () => {
+              this._messageService.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Usuário criado com sucesso',
+              });
+            },
+          });
+        });
       }
     }
   }

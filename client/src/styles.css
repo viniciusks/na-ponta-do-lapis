@@ -98,6 +98,14 @@
   margin-top: 2rem;
 }
 
+.mr-05 {
+  margin-right: .5rem;
+}
+
+.mr-1 {
+  margin-right: 1rem;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;

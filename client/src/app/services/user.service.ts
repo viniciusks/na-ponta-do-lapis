@@ -22,4 +22,12 @@ export class UserService {
       headers: headers,
     });
   }
+
+  getUsers() {
+    return this._http.get(`${this.apiFunction}/users`);
+  }
+
+  getUser(uid: string) {
+    return this._http.get(`${this.apiFunction}/users/${uid}`);
+  }
 }

@@ -17,6 +17,7 @@ import {
   auth,
   createUserWithEmailAndPassword,
 } from '../../../services/firebase-auth.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-users-forms',
@@ -31,13 +32,13 @@ import {
     DropdownModule,
     ButtonModule,
     RippleModule,
+    RouterLink,
   ],
   templateUrl: './users-forms.component.html',
   styleUrl: './users-forms.component.css',
   providers: [UtilsService, UserService, MessageService],
 })
 export class UsersFormsComponent implements OnInit {
-  @Input() typeForm = '';
   user: User;
   states: MyDropdownItem[];
   selectedState: MyDropdownItem;
@@ -45,11 +46,13 @@ export class UsersFormsComponent implements OnInit {
   selectedCity: MyDropdownItem;
   countries: MyDropdownItem[];
   selectedCountry: MyDropdownItem;
+  action: string;
 
   constructor(
     private _utilsService: UtilsService,
     private _userService: UserService,
     private _messageService: MessageService,
+    private _route: ActivatedRoute,
   ) {
     this.user = {
       name: '',
@@ -70,10 +73,23 @@ export class UsersFormsComponent implements OnInit {
     this.selectedCity = { name: '', code: '' };
     this.countries = [];
     this.selectedCountry = { name: '', code: '' };
+    this.action = '';
   }
 
   ngOnInit() {
-    this.getCountries();
+    this._route.params.subscribe((params) => {
+      this.action = params['action'];
+      if (this.action == 'edit') {
+        this._route.queryParams.subscribe((params) => {
+          this._userService
+            .getUser(params['uid'])
+            .subscribe((response: any) => {
+              this.user = response.data;
+            });
+        });
+      }
+      this.getCountries();
+    });
   }
 
   getCountries() {
@@ -175,7 +191,7 @@ export class UsersFormsComponent implements OnInit {
     this.user.state = this.selectedState.name;
     this.user.city = this.selectedCity.name;
     if (this.validationForm()) {
-      if (this.typeForm == 'add') {
+      if (this.action == 'add') {
         createUserWithEmailAndPassword(
           auth,
           this.user.email,

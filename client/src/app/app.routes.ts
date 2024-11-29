@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { UsersAdminComponent } from './admin/users-admin/users-admin.component';
 import { HomeAdminComponent } from './admin/home-admin/home-admin.component';
 import { AdminComponent } from './admin/admin.component';
-import { UsersAddComponent } from './admin/users-admin/users-add/users-add.component';
+import { UsersFormsComponent } from './admin/users-admin/users-forms/users-forms.component';
 
 export const routes: Routes = [
   {
@@ -18,8 +18,8 @@ export const routes: Routes = [
         component: UsersAdminComponent,
       },
       {
-        path: 'users/add',
-        component: UsersAddComponent,
+        path: 'users/:action',
+        component: UsersFormsComponent,
       },
     ],
   },

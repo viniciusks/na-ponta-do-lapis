@@ -1,7 +1,7 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-const express = require("express");
-const cors = require("cors");
+const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+const express = require('express');
+const cors = require('cors');
 
 // Variáveis utilitárias
 const db = admin.firestore();
@@ -11,53 +11,81 @@ const app = express();
 // Permitir automaticamente solicitações de cross-origin
 app.use(cors({ origin: true }));
 
-app.get("/", async (req, res) => {
-  logger.info("Iniciando função de usuários.");
+app.get('/', async (req, res) => {
+  logger.info('Iniciando função de usuários.');
 
   let users = [];
 
   await db
-    .collection("users")
+    .collection('users')
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        users.push(doc.data());
+        console.log(doc.id, ' => ', doc.data());
+        let user = {
+          uid: doc.id,
+          name: doc.data().name,
+          cpf: doc.data().cpf,
+          email: doc.data().email,
+          birthdate: doc.data().birthdate,
+          city: doc.data().city,
+          state: doc.data().state,
+          country: doc.data().country,
+          role: doc.data().role,
+          isEnable: doc.data().isEnable,
+          createdAt: doc.data().createdAt,
+          updatedAt: doc.data().updatedAt,
+        };
+        users.push(user);
       });
     });
 
   res.status(200).json(users);
 });
 
-app.get("/:uid", (req, res) => {
+app.get('/:uid', (req, res) => {
   let uid = req.params.uid;
 
   logger.info(`Iniciando busca por usuário com uid ${uid}`);
 
-  db.collection("users")
+  db.collection('users')
     .doc(uid)
     .get()
     .then((doc) => {
       if (doc.exists) {
         let msg = `Usuário encontrado com uid ${uid}`;
         logger.info(msg);
+        let user = {
+          uid: doc.id,
+          name: doc.data().name,
+          cpf: doc.data().cpf,
+          email: doc.data().email,
+          birthdate: doc.data().birthdate,
+          city: doc.data().city,
+          state: doc.data().state,
+          country: doc.data().country,
+          role: doc.data().role,
+          isEnable: doc.data().isEnable,
+          createdAt: doc.data().createdAt,
+          updatedAt: doc.data().updatedAt,
+        };
         res.status(200).json({
           message: msg,
-          data: doc.data()
+          data: user,
         });
       } else {
         let msg = `Usuário não encontrado com uid ${uid}`;
         logger.error(msg);
         res.status(404).json({
           message: msg,
-          data: []
+          data: [],
         });
       }
     });
 });
 
-app.post("/", async (req, res) => {
-  logger.info("Iniciando criação de usuário");
+app.post('/', async (req, res) => {
+  logger.info('Iniciando criação de usuário');
 
   const {
     uid,
@@ -71,13 +99,13 @@ app.post("/", async (req, res) => {
     role,
     isEnable,
     createdAt,
-    updatedAt
+    updatedAt,
   } = req.body;
 
-  logger.info("Inserindo usuário no firestore");
+  logger.info('Inserindo usuário no firestore');
 
   await db
-    .collection("users")
+    .collection('users')
     .doc(uid)
     .set({
       name,
@@ -90,7 +118,7 @@ app.post("/", async (req, res) => {
       role,
       isEnable,
       createdAt,
-      updatedAt
+      updatedAt,
     })
     .then(() => {
       logger.info(`Usuário inserido com id ${uid}`);
@@ -100,8 +128,8 @@ app.post("/", async (req, res) => {
     });
 });
 
-app.put("/:uid", async (req, res) => {
-  logger.info("Iniciando atualização de usuário");
+app.put('/:uid', async (req, res) => {
+  logger.info('Iniciando atualização de usuário');
   let uid = req.params.uid;
   const {
     name,
@@ -114,11 +142,11 @@ app.put("/:uid", async (req, res) => {
     role,
     isEnable,
     createdAt,
-    updatedAt
+    updatedAt,
   } = req.body;
 
   await db
-    .collection("users")
+    .collection('users')
     .doc(uid)
     .set({
       name,
@@ -131,30 +159,30 @@ app.put("/:uid", async (req, res) => {
       role,
       isEnable,
       createdAt,
-      updatedAt
+      updatedAt,
     })
     .then(() => {
       let msg = `Usuário de id ${uid} atualizado com sucesso!`;
       logger.info(msg);
       res.status(200).json({
         message: msg,
-        data: []
+        data: [],
       });
     })
     .catch((error) => {
       logger.error(error);
       res.status(400).json({
         message: error,
-        data: []
+        data: [],
       });
     });
 });
 
-app.delete("/:uid", async (req, res) => {
+app.delete('/:uid', async (req, res) => {
   let uid = req.params.uid;
 
   await db
-    .collection("users")
+    .collection('users')
     .doc(uid)
     .delete()
     .then(() => {
@@ -162,14 +190,14 @@ app.delete("/:uid", async (req, res) => {
       logger.info(msg);
       res.status(200).json({
         message: msg,
-        data: []
+        data: [],
       });
     })
     .catch((error) => {
       logger.error(error);
       res.status(400).json({
         message: error,
-        data: []
+        data: [],
       });
     });
 });

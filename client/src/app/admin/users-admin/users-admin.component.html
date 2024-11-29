@@ -18,18 +18,32 @@
     <p-table styleClass="min-w-50" [value]="users">
         <ng-template pTemplate="header">
             <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Quantity</th>
+                <th>UID</th>
+                <th>Nome</th>
+                <th>Ativo</th>
+                <th>Ações</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-user>
             <tr>
-                <td>{{ user.code }}</td>
+                <td>{{ user.uid }}</td>
                 <td>{{ user.name }}</td>
-                <td>{{ user.category }}</td>
-                <td>{{ user.quantity }}</td>
+                <td>{{ user.isEnable ? "Ativo" : "Desativado" }}</td>
+                <td>
+                    <p-button
+                        icon="pi pi-pencil"
+                        iconPos="left"
+                        styleClass="p-button-warning mr-05"
+                        routerLink="/admin/users/edit"
+                        [queryParams]="{ uid: user.uid }"
+                    ></p-button>
+                    <p-button
+                        icon="pi pi-trash"
+                        iconPos="left"
+                        styleClass="p-button-danger"
+                        routerLink="/admin/users/add"
+                    ></p-button>
+                </td>
             </tr>
         </ng-template>
     </p-table>

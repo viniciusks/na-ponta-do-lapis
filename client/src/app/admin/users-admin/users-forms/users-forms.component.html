@@ -1,4 +1,19 @@
 <p-toast />
+<div class="d-flex align-items justify-content-space-between">
+    <div>
+        <h1>{{ user.uid ? "Atualização" : "Cadatro" }} de Usuário</h1>
+    </div>
+    <div>
+        <p-button
+            icon="pi pi-arrow-left"
+            iconPos="left"
+            label="Voltar"
+            styleClass="p-button-secondary"
+            routerLink="/admin/users"
+        ></p-button>
+    </div>
+</div>
+<hr />
 <div class="min-w-50">
     <div class="row">
         <div class="w-49">

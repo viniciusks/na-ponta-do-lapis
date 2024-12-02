@@ -8,7 +8,7 @@ const db = admin.firestore();
 const logger = functions.logger;
 const app = express();
 
-// Automatically allow cross-origin requests
+// Permitir automaticamente solicitações de cross-origin
 app.use(cors({ origin: true }));
 
 app.get('/', async (req, res) => {
@@ -22,14 +22,25 @@ app.get('/', async (req, res) => {
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         console.log(doc.id, ' => ', doc.data());
-        users.push(doc.data());
+        let user = {
+          uid: doc.id,
+          name: doc.data().name,
+          cpf: doc.data().cpf,
+          email: doc.data().email,
+          birthdate: doc.data().birthdate,
+          city: doc.data().city,
+          state: doc.data().state,
+          country: doc.data().country,
+          role: doc.data().role,
+          isEnable: doc.data().isEnable,
+          createdAt: doc.data().createdAt,
+          updatedAt: doc.data().updatedAt,
+        };
+        users.push(user);
       });
     });
 
-  res.status(200).json({
-    message: 'Usuários selecionados com sucesso!',
-    data: users,
-  });
+  res.status(200).json(users);
 });
 
 app.get('/:uid', (req, res) => {
@@ -42,14 +53,28 @@ app.get('/:uid', (req, res) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        let msg = `User founded with uid ${uid}`;
+        let msg = `Usuário encontrado com uid ${uid}`;
         logger.info(msg);
+        let user = {
+          uid: doc.id,
+          name: doc.data().name,
+          cpf: doc.data().cpf,
+          email: doc.data().email,
+          birthdate: doc.data().birthdate,
+          city: doc.data().city,
+          state: doc.data().state,
+          country: doc.data().country,
+          role: doc.data().role,
+          isEnable: doc.data().isEnable,
+          createdAt: doc.data().createdAt,
+          updatedAt: doc.data().updatedAt,
+        };
         res.status(200).json({
           message: msg,
-          data: doc.data(),
+          data: user,
         });
       } else {
-        let msg = `User NOT founded with uid ${uid}`;
+        let msg = `Usuário não encontrado com uid ${uid}`;
         logger.error(msg);
         res.status(404).json({
           message: msg,
@@ -59,38 +84,22 @@ app.get('/:uid', (req, res) => {
     });
 });
 
-// TODO: Ajustar rota de CRIAÇÃO
 app.post('/', async (req, res) => {
   logger.info('Iniciando criação de usuário');
 
   const {
     uid,
     name,
-    birthday,
+    cpf,
     email,
-    country,
-    state,
+    birthdate,
     city,
-    roles,
-    action,
-    artisticFormation,
-    professionalArt,
-    englishLevel,
-    spanishLevel,
-    spiritCenter,
-    otherLanguages,
-    whatsapp,
-    isWorker,
-    isPlayer,
-    isTheater,
-    isLiterature,
-    isDancer,
-    isEFASCoordinator,
-    isCONCAFRASCoordinator,
-    isVisualArt,
-    isActive,
-    instruments,
-    image,
+    state,
+    country,
+    role,
+    isEnable,
+    createdAt,
+    updatedAt,
   } = req.body;
 
   logger.info('Inserindo usuário no firestore');
@@ -100,31 +109,16 @@ app.post('/', async (req, res) => {
     .doc(uid)
     .set({
       name,
-      birthday,
+      cpf,
       email,
-      country,
-      state,
+      birthdate,
       city,
-      roles,
-      action,
-      artisticFormation,
-      professionalArt,
-      englishLevel,
-      spanishLevel,
-      spiritCenter,
-      otherLanguages,
-      whatsapp,
-      isWorker,
-      isPlayer,
-      isTheater,
-      isLiterature,
-      isDancer,
-      isEFASCoordinator,
-      isCONCAFRASCoordinator,
-      isVisualArt,
-      isActive,
-      instruments,
-      image,
+      state,
+      country,
+      role,
+      isEnable,
+      createdAt,
+      updatedAt,
     })
     .then(() => {
       logger.info(`Usuário inserido com id ${uid}`);
@@ -134,72 +128,41 @@ app.post('/', async (req, res) => {
     });
 });
 
-// TODO: Ajustar rota de UPDATE
-app.put('/:id', async (req, res) => {
+app.put('/:uid', async (req, res) => {
   logger.info('Iniciando atualização de usuário');
-  let id = req.params.id;
+  let uid = req.params.uid;
   const {
     name,
-    birthday,
+    cpf,
     email,
-    country,
-    state,
+    birthdate,
     city,
-    roles,
-    action,
-    artisticFormation,
-    professionalArt,
-    englishLevel,
-    spanishLevel,
-    spiritCenter,
-    otherLanguages,
-    whatsapp,
-    isWorker,
-    isPlayer,
-    isTheater,
-    isLiterature,
-    isDancer,
-    isEFASCoordinator,
-    isCONCAFRASCoordinator,
-    isVisualArt,
-    isActive,
-    instruments,
-    image,
+    state,
+    country,
+    role,
+    isEnable,
+    createdAt,
+    updatedAt,
   } = req.body;
 
   await db
     .collection('users')
-    .doc(id)
+    .doc(uid)
     .set({
       name,
-      birthday,
+      cpf,
       email,
-      country,
-      state,
+      birthdate,
       city,
-      roles,
-      action,
-      artisticFormation,
-      professionalArt,
-      englishLevel,
-      spanishLevel,
-      spiritCenter,
-      otherLanguages,
-      whatsapp,
-      isWorker,
-      isPlayer,
-      isTheater,
-      isLiterature,
-      isDancer,
-      isEFASCoordinator,
-      isCONCAFRASCoordinator,
-      isVisualArt,
-      isActive,
-      instruments,
-      image,
+      state,
+      country,
+      role,
+      isEnable,
+      createdAt,
+      updatedAt,
     })
     .then(() => {
-      let msg = `Usuário de id ${id} atualizado com sucesso!`;
+      let msg = `Usuário de id ${uid} atualizado com sucesso!`;
       logger.info(msg);
       res.status(200).json({
         message: msg,
@@ -215,15 +178,15 @@ app.put('/:id', async (req, res) => {
     });
 });
 
-app.delete('/:id', async (req, res) => {
-  let id = req.params.id;
+app.delete('/:uid', async (req, res) => {
+  let uid = req.params.uid;
 
   await db
     .collection('users')
-    .doc(id)
+    .doc(uid)
     .delete()
     .then(() => {
-      let msg = `Usuário de id ${id} deletado com sucesso!`;
+      let msg = `Usuário de id ${uid} deletado com sucesso!`;
       logger.info(msg);
       res.status(200).json({
         message: msg,

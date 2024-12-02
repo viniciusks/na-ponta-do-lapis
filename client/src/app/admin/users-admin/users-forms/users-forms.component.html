@@ -1,0 +1,102 @@
+<p-toast />
+<div class="d-flex align-items justify-content-space-between">
+    <div>
+        <h1>{{ user.uid ? "Atualização" : "Cadatro" }} de Usuário</h1>
+    </div>
+    <div>
+        <p-button
+            icon="pi pi-arrow-left"
+            iconPos="left"
+            label="Voltar"
+            styleClass="p-button-secondary"
+            routerLink="/admin/users"
+        ></p-button>
+    </div>
+</div>
+<hr />
+<div class="min-w-50">
+    <div class="row">
+        <div class="w-49">
+            <label for="username">Nome</label>
+            <input
+                id="username"
+                class="w-100"
+                pInputText
+                [(ngModel)]="user.name"
+            />
+        </div>
+        <div class="w-49">
+            <label for="email">CPF</label>
+            <p-inputMask
+                styleClass="w-100"
+                mask="999.999.999-99"
+                variant="filled"
+                [(ngModel)]="user.cpf"
+                placeholder="111.111.111-11"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="w-49">
+            <label for="email">E-mail</label>
+            <input
+                id="email"
+                class="w-100"
+                pInputText
+                [(ngModel)]="user.email"
+            />
+        </div>
+        <div class="w-49">
+            <label for="birthday">Nascimento</label>
+            <p-calendar
+                styleClass="w-100"
+                dateFormat="dd/mm/yy"
+                [(ngModel)]="user.birthdate"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="w-49">
+            <label for="state">Estado</label>
+            <p-dropdown
+                [options]="states"
+                [(ngModel)]="user.state"
+                (onChange)="onChangeState($event)"
+                optionLabel="name"
+                placeholder="Selecione o estado"
+                styleClass="w-100"
+            />
+        </div>
+        <div class="w-49">
+            <label for="city">Cidade</label>
+            <p-dropdown
+                [options]="cities"
+                [(ngModel)]="user.city"
+                optionLabel="name"
+                placeholder="Selecione a cidade"
+                styleClass="w-100"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="w-100">
+            <label for="state">País</label>
+            <p-dropdown
+                [options]="countries"
+                [(ngModel)]="user.country"
+                optionLabel="name"
+                placeholder="Selecione o país"
+                styleClass="w-100"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <button
+            pButton
+            pRipple
+            label="{{ user.uid ? 'Atualizar' : 'Cadastrar' }}"
+            class="w-100 p-button-success"
+            (click)="onSubmit()"
+        ></button>
+    </div>
+</div>

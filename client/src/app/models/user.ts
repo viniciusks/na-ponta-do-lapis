@@ -1,11 +1,13 @@
+import { MyDropdownItem } from './myDropdownItem';
+
 export interface User {
   name: string;
   cpf: string;
   email: string;
   birthdate: Date;
-  city: string;
-  state: string;
-  country: string;
+  city: MyDropdownItem;
+  state: MyDropdownItem;
+  country: MyDropdownItem;
   role: string;
   isEnable: boolean;
   createdAt: Date;

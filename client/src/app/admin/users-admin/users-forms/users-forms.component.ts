@@ -17,7 +17,7 @@ import {
   auth,
   createUserWithEmailAndPassword,
 } from '../../../services/firebase-auth.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-users-forms',
@@ -41,50 +41,56 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class UsersFormsComponent implements OnInit {
   user: User;
   states: MyDropdownItem[];
-  selectedState: MyDropdownItem;
   cities: MyDropdownItem[];
-  selectedCity: MyDropdownItem;
   countries: MyDropdownItem[];
-  selectedCountry: MyDropdownItem;
   action: string;
 
   constructor(
     private _utilsService: UtilsService,
     private _userService: UserService,
     private _messageService: MessageService,
-    private _route: ActivatedRoute,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
   ) {
     this.user = {
       name: '',
       cpf: '',
       email: '',
       birthdate: new Date(),
-      city: '',
-      state: '',
-      country: '',
+      city: {
+        name: '',
+        code: '',
+      },
+      state: {
+        name: '',
+        code: '',
+      },
+      country: {
+        name: '',
+        code: '',
+      },
       role: 'USER_ROLE',
       isEnable: true,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
     this.states = [];
-    this.selectedState = { name: '', code: '' };
     this.cities = [];
-    this.selectedCity = { name: '', code: '' };
     this.countries = [];
-    this.selectedCountry = { name: '', code: '' };
     this.action = '';
   }
 
   ngOnInit() {
-    this._route.params.subscribe((params) => {
+    this._activatedRoute.params.subscribe((params) => {
       this.action = params['action'];
       if (this.action == 'edit') {
-        this._route.queryParams.subscribe((params) => {
+        this._activatedRoute.queryParams.subscribe((params) => {
           this._userService
             .getUser(params['uid'])
             .subscribe((response: any) => {
               this.user = response.data;
+              this.user.birthdate = new Date(this.user.birthdate);
+              this.getCities(this.user.state.code);
             });
         });
       }
@@ -156,7 +162,7 @@ export class UsersFormsComponent implements OnInit {
       return false;
     }
 
-    if (this.user.city == '') {
+    if (this.user.city.name == '') {
       this._messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -165,7 +171,7 @@ export class UsersFormsComponent implements OnInit {
       return false;
     }
 
-    if (this.user.state == '') {
+    if (this.user.state.name == '') {
       this._messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -174,7 +180,7 @@ export class UsersFormsComponent implements OnInit {
       return false;
     }
 
-    if (this.user.country == '') {
+    if (this.user.country.name == '') {
       this._messageService.add({
         severity: 'error',
         summary: 'Error',
@@ -186,10 +192,13 @@ export class UsersFormsComponent implements OnInit {
     return true;
   }
 
+  redirect() {
+    setTimeout(() => {
+      this._router.navigate(['/admin/users']);
+    }, 2000);
+  }
+
   onSubmit() {
-    this.user.country = this.selectedCountry.name;
-    this.user.state = this.selectedState.name;
-    this.user.city = this.selectedCity.name;
     if (this.validationForm()) {
       if (this.action == 'add') {
         createUserWithEmailAndPassword(
@@ -205,8 +214,21 @@ export class UsersFormsComponent implements OnInit {
                 summary: 'Success',
                 detail: 'Usuário criado com sucesso',
               });
+              this.redirect();
             },
           });
+        });
+      } else if (this.action == 'edit') {
+        this.user.updatedAt = new Date();
+        this._userService.updateUser(this.user).subscribe({
+          next: () => {
+            this._messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Usuário atualizado com sucesso',
+            });
+            this.redirect();
+          },
         });
       }
     }

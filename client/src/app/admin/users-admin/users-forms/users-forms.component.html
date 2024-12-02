@@ -60,7 +60,7 @@
             <label for="state">Estado</label>
             <p-dropdown
                 [options]="states"
-                [(ngModel)]="selectedState"
+                [(ngModel)]="user.state"
                 (onChange)="onChangeState($event)"
                 optionLabel="name"
                 placeholder="Selecione o estado"
@@ -71,7 +71,7 @@
             <label for="city">Cidade</label>
             <p-dropdown
                 [options]="cities"
-                [(ngModel)]="selectedCity"
+                [(ngModel)]="user.city"
                 optionLabel="name"
                 placeholder="Selecione a cidade"
                 styleClass="w-100"
@@ -83,7 +83,7 @@
             <label for="state">País</label>
             <p-dropdown
                 [options]="countries"
-                [(ngModel)]="selectedCountry"
+                [(ngModel)]="user.country"
                 optionLabel="name"
                 placeholder="Selecione o país"
                 styleClass="w-100"

@@ -12,6 +12,14 @@ export class UserService {
 
   getIdentity() {}
 
+  getUsers() {
+    return this._http.get(`${this.apiFunction}/users`);
+  }
+
+  getUser(uid: string) {
+    return this._http.get(`${this.apiFunction}/users/${uid}`);
+  }
+
   createUser(user: any) {
     let params = JSON.stringify(user);
     let headers = {
@@ -23,11 +31,18 @@ export class UserService {
     });
   }
 
-  getUsers() {
-    return this._http.get(`${this.apiFunction}/users`);
+  updateUser(user: any) {
+    let params = JSON.stringify(user);
+    let headers = {
+      'Content-Type': 'application/json',
+    };
+
+    return this._http.put(`${this.apiFunction}/users/${user.uid}`, params, {
+      headers: headers,
+    });
   }
 
-  getUser(uid: string) {
-    return this._http.get(`${this.apiFunction}/users/${uid}`);
+  deleteUser(uid: string) {
+    return this._http.delete(`${this.apiFunction}/users/${uid}`);
   }
 }

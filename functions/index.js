@@ -7,7 +7,9 @@ admin.initializeApp({
 });
 
 const usersApi = require('./apis/users');
+const assetsApi = require('./apis/assets');
 
 module.exports = {
   ...usersApi,
+  ...assetsApi,
 };

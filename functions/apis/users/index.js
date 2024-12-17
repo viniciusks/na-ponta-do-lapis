@@ -131,42 +131,18 @@ app.post('/', async (req, res) => {
 app.put('/:uid', async (req, res) => {
   logger.info('Iniciando atualização de usuário');
   let uid = req.params.uid;
-  const {
-    name,
-    cpf,
-    email,
-    birthdate,
-    city,
-    state,
-    country,
-    role,
-    isEnable,
-    createdAt,
-    updatedAt,
-  } = req.body;
+  let user = req.body;
 
   await db
     .collection('users')
     .doc(uid)
-    .set({
-      name,
-      cpf,
-      email,
-      birthdate,
-      city,
-      state,
-      country,
-      role,
-      isEnable,
-      createdAt,
-      updatedAt,
-    })
+    .update(user)
     .then(() => {
       let msg = `Usuário de id ${uid} atualizado com sucesso!`;
       logger.info(msg);
       res.status(200).json({
         message: msg,
-        data: [],
+        data: user,
       });
     })
     .catch((error) => {

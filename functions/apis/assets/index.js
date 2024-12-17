@@ -65,37 +65,59 @@ app.get('/:uid', (req, res) => {
           uid: doc.id,
           dividend: doc.data().dividend,
         };
-        res.status(200).json(asset);
+        res.status(200).json({ message: msg, data: asset });
       } else {
         let msg = `Ativo não encontrado com uid ${uid}`;
         logger.info(msg);
-        res.status(404).json({ message: msg });
+        res.status(404).json({ message: msg, data: [] });
       }
     })
     .catch((error) => {
       let msg = `Erro ao buscar ativo com uid ${uid}`;
       logger.error(msg);
-      res.status(500).json({ message: msg });
+      res.status(500).json({ message: msg, data: [] });
     });
 });
 
 app.post('/', async (req, res) => {
-  let asset = req.body;
+  let {
+    name,
+    description,
+    price,
+    categoryUid,
+    payday,
+    assetHistory,
+    createdAt,
+    updatedAt,
+    uid,
+    dividend,
+  } = req.body;
 
   logger.info('Iniciando criação de ativo.');
 
   await db
     .collection('assets')
-    .add(asset)
+    .doc(uid)
+    .set({
+      name: name,
+      description: description,
+      price: price,
+      categoryUid: categoryUid,
+      payday: payday,
+      assetHistory: assetHistory,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      dividend: dividend,
+    })
     .then((docRef) => {
-      let msg = `Ativo criado com uid ${docRef.id}`;
+      let msg = `Ativo criado com uid ${uid}`;
       logger.info(msg);
-      res.status(201).json({ message: msg });
+      res.status(201).json({ message: msg, data: [] });
     })
     .catch((error) => {
       let msg = `Erro ao criar ativo`;
       logger.error(msg);
-      res.status(500).json({ message: msg });
+      res.status(500).json({ message: msg, data: [] });
     });
 });
 
@@ -112,12 +134,12 @@ app.put('/:uid', async (req, res) => {
     .then(() => {
       let msg = `Ativo atualizado com uid ${uid}`;
       logger.info(msg);
-      res.status(200).json({ message: msg });
+      res.status(200).json({ message: msg, data: asset });
     })
     .catch((error) => {
       let msg = `Erro ao atualizar ativo com uid ${uid}`;
       logger.error(msg);
-      res.status(500).json({ message: msg });
+      res.status(500).json({ message: msg, data: [] });
     });
 });
 
@@ -133,12 +155,12 @@ app.delete('/:uid', async (req, res) => {
     .then(() => {
       let msg = `Ativo excluído com uid ${uid}`;
       logger.info(msg);
-      res.status(200).json({ message: msg });
+      res.status(200).json({ message: msg, data: [] });
     })
     .catch((error) => {
       let msg = `Erro ao excluir ativo com uid ${uid}`;
       logger.error(msg);
-      res.status(500).json({ message: msg });
+      res.status(500).json({ message: msg, data: [] });
     });
 });
 

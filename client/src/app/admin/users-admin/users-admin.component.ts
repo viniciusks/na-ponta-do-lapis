@@ -45,7 +45,6 @@ export class UsersAdminComponent implements OnInit {
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
         let user = auth.currentUser;
-        console.log(user);
         // this._userService.deleteUser(uid).subscribe((response: any) => {
         //   this._messageService.add({
         //     severity: 'success',

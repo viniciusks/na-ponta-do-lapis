@@ -1,0 +1,51 @@
+<p-toast />
+<p-confirmDialog />
+<div class="d-flex align-items justify-content-space-between">
+    <div>
+        <h1>Categorias</h1>
+    </div>
+    <div>
+        <p-button
+            icon="pi pi-check"
+            iconPos="left"
+            label="Nova categoria"
+            styleClass="p-button-success"
+            routerLink="/admin/categories/add"
+        ></p-button>
+    </div>
+</div>
+<hr />
+<!-- TODO: Refatorar table -->
+<div>
+    <p-table styleClass="min-w-50" [value]="categories">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>UID</th>
+                <th>Nome</th>
+                <th>Ativo</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{ user.uid }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.isEnable ? "Ativo" : "Desativado" }}</td>
+                <td>
+                    <p-button
+                        icon="pi pi-pencil"
+                        iconPos="left"
+                        styleClass="p-button-warning mr-05"
+                        routerLink="/admin/users/edit"
+                        [queryParams]="{ uid: user.uid }"
+                    ></p-button>
+                    <p-button
+                        icon="pi pi-trash"
+                        iconPos="left"
+                        styleClass="p-button-danger"
+                    ></p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

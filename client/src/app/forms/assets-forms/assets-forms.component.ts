@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-assets-forms',
@@ -18,6 +19,7 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     RippleModule,
     InputTextModule,
+    InputNumberModule,
   ],
   templateUrl: './assets-forms.component.html',
   styleUrl: './assets-forms.component.css',
@@ -33,7 +35,10 @@ export class AssetsFormsComponent implements OnInit {
       name: '',
       description: '',
       price: 0,
-      categoryUid: '',
+      category: {
+        name: '',
+        description: '',
+      },
       payday: new Date(),
       assetHistory: [],
       createdAt: new Date(),

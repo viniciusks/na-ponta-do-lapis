@@ -37,4 +37,28 @@
             />
         </div>
     </div>
+    <div class="row">
+        <div class="w-49">
+            <label for="price">Preço</label>
+            <p-inputNumber
+                inputId="price"
+                mode="decimal"
+                class="w-100"
+                styleClass="w-100"
+                [minFractionDigits]="2"
+                [maxFractionDigits]="5"
+                [(ngModel)]="asset.price"
+            />
+        </div>
+        <div class="w-49">
+            <label for="description">Descrição</label>
+            <input
+                id="description"
+                class="w-100"
+                placeholder="Digite a descrição do ativo..."
+                pInputText
+                [(ngModel)]="asset.description"
+            />
+        </div>
+    </div>
 </div>

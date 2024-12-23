@@ -26,8 +26,6 @@ app.get('/', async (req, res) => {
         let category = {
           name: doc.data().name,
           description: doc.data().description,
-          createdAt: doc.data().createdAt,
-          updatedAt: doc.data().updatedAt,
           uid: doc.id,
         };
         categories.push(category);
@@ -54,8 +52,6 @@ app.get('/:uid', (req, res) => {
         let category = {
           name: doc.data().name,
           description: doc.data().description,
-          createdAt: doc.data().createdAt,
-          updatedAt: doc.data().updatedAt,
           uid: doc.id,
         };
         res.status(200).json(category);

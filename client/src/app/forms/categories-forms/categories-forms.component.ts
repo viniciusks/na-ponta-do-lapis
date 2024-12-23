@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { Category } from '../../models/category';
 import { MessageService } from 'primeng/api';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-categories-forms',
@@ -19,13 +20,18 @@ import { InputTextModule } from 'primeng/inputtext';
   ],
   templateUrl: './categories-forms.component.html',
   styleUrl: './categories-forms.component.css',
-  providers: [MessageService],
+  providers: [MessageService, CategoryService],
 })
 export class CategoriesFormsComponent implements OnInit {
   action: string;
   category: Category;
 
-  constructor(private _activatedRoute: ActivatedRoute) {
+  constructor(
+    private _activatedRoute: ActivatedRoute,
+    private _categoryService: CategoryService,
+    private _messageService: MessageService,
+    private _router: Router,
+  ) {
     this.action = '';
     this.category = {
       name: '',
@@ -39,7 +45,38 @@ export class CategoriesFormsComponent implements OnInit {
     });
   }
 
+  redirect() {
+    setTimeout(() => {
+      this._router.navigate(['/admin/categories']);
+    }, 2000);
+  }
+
   onSubmit(): void {
-    console.log(this.category);
+    if (this.category.name === '' || this.category.description === '') {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Preencha todos os campos',
+      });
+      return;
+    }
+
+    this._categoryService.createCategory(this.category).subscribe({
+      next: (response) => {
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Categoria criada com sucesso',
+        });
+        this.redirect();
+      },
+      error: (error) => {
+        this._messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao criar categoria',
+        });
+      },
+    });
   }
 }

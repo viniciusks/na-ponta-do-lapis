@@ -8,8 +8,10 @@ admin.initializeApp({
 
 const usersApi = require('./apis/users');
 const assetsApi = require('./apis/assets');
+const categoriesApi = require('./apis/categories');
 
 module.exports = {
   ...usersApi,
   ...assetsApi,
+  ...categoriesApi,
 };

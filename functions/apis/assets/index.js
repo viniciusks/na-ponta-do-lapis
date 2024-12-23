@@ -38,7 +38,9 @@ app.get('/', async (req, res) => {
       });
     });
 
-  res.status(200).json(assets);
+  res
+    .status(200)
+    .json({ message: 'Ativos encontrados com sucesso', data: assets });
 });
 
 app.get('/:uid', (req, res) => {
@@ -51,8 +53,8 @@ app.get('/:uid', (req, res) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        let msg = `Ativo encontrado com uid ${uid}`;
-        logger.info(msg);
+        let message = `Ativo encontrado com uid ${uid}`;
+        logger.info(message);
         let asset = {
           name: doc.data().name,
           description: doc.data().description,
@@ -65,17 +67,17 @@ app.get('/:uid', (req, res) => {
           uid: doc.id,
           dividend: doc.data().dividend,
         };
-        res.status(200).json({ message: msg, data: asset });
+        res.status(200).json({ message: message, data: asset });
       } else {
-        let msg = `Ativo não encontrado com uid ${uid}`;
-        logger.info(msg);
-        res.status(404).json({ message: msg, data: [] });
+        let message = `Ativo não encontrado com uid ${uid}`;
+        logger.info(message);
+        res.status(404).json({ message: message, data: [] });
       }
     })
     .catch((error) => {
-      let msg = `Erro ao buscar ativo com uid ${uid}`;
-      logger.error(msg);
-      res.status(500).json({ message: msg, data: [] });
+      let message = `Erro ao buscar ativo com uid ${uid}`;
+      logger.error(message);
+      res.status(500).json({ message: message, data: [] });
     });
 });
 
@@ -110,14 +112,14 @@ app.post('/', async (req, res) => {
       dividend: dividend,
     })
     .then((docRef) => {
-      let msg = `Ativo criado com uid ${uid}`;
-      logger.info(msg);
-      res.status(201).json({ message: msg, data: [] });
+      let message = `Ativo criado com uid ${uid}`;
+      logger.info(message);
+      res.status(201).json({ message: message, data: [] });
     })
     .catch((error) => {
-      let msg = `Erro ao criar ativo`;
-      logger.error(msg);
-      res.status(500).json({ message: msg, data: [] });
+      let message = `Erro ao criar ativo`;
+      logger.error(message);
+      res.status(500).json({ message: message, data: [] });
     });
 });
 
@@ -132,14 +134,14 @@ app.put('/:uid', async (req, res) => {
     .doc(uid)
     .update(asset)
     .then(() => {
-      let msg = `Ativo atualizado com uid ${uid}`;
-      logger.info(msg);
-      res.status(200).json({ message: msg, data: asset });
+      let message = `Ativo atualizado com uid ${uid}`;
+      logger.info(message);
+      res.status(200).json({ message: message, data: asset });
     })
     .catch((error) => {
-      let msg = `Erro ao atualizar ativo com uid ${uid}`;
-      logger.error(msg);
-      res.status(500).json({ message: msg, data: [] });
+      let message = `Erro ao atualizar ativo com uid ${uid}`;
+      logger.error(message);
+      res.status(500).json({ message: message, data: [] });
     });
 });
 
@@ -153,14 +155,14 @@ app.delete('/:uid', async (req, res) => {
     .doc(uid)
     .delete()
     .then(() => {
-      let msg = `Ativo excluído com uid ${uid}`;
-      logger.info(msg);
-      res.status(200).json({ message: msg, data: [] });
+      let message = `Ativo excluído com uid ${uid}`;
+      logger.info(message);
+      res.status(200).json({ message: message, data: [] });
     })
     .catch((error) => {
-      let msg = `Erro ao excluir ativo com uid ${uid}`;
-      logger.error(msg);
-      res.status(500).json({ message: msg, data: [] });
+      let message = `Erro ao excluir ativo com uid ${uid}`;
+      logger.error(message);
+      res.status(500).json({ message: message, data: [] });
     });
 });
 

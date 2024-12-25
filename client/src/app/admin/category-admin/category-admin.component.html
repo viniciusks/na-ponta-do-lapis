@@ -15,7 +15,6 @@
     </div>
 </div>
 <hr />
-<!-- TODO: Refatorar table -->
 <div>
     <p-table styleClass="min-w-50" [value]="categories">
         <ng-template pTemplate="header">
@@ -26,18 +25,18 @@
                 <th>Ações</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-category>
             <tr>
-                <td>{{ user.uid }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.isEnable ? "Ativo" : "Desativado" }}</td>
+                <td>{{ category.uid }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.description }}</td>
                 <td>
                     <p-button
                         icon="pi pi-pencil"
                         iconPos="left"
                         styleClass="p-button-warning mr-05"
-                        routerLink="/admin/users/edit"
-                        [queryParams]="{ uid: user.uid }"
+                        routerLink="/admin/categories/edit"
+                        [queryParams]="{ uid: category.uid }"
                     ></p-button>
                     <p-button
                         icon="pi pi-trash"
@@ -49,3 +48,6 @@
         </ng-template>
     </p-table>
 </div>
+<ngx-spinner type="ball-scale-multiple" class="white-color">
+    Carregando...
+</ngx-spinner>

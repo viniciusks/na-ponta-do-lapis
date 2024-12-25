@@ -42,6 +42,26 @@ export class CategoriesFormsComponent implements OnInit {
   ngOnInit(): void {
     this._activatedRoute.params.subscribe((params) => {
       this.action = params['action'];
+      if (this.action === 'edit') {
+        this._activatedRoute.queryParams.subscribe((queryParams) => {
+          this.getCategory(queryParams['uid']);
+        });
+      }
+    });
+  }
+
+  getCategory(id: string): void {
+    this._categoryService.getCategory(id).subscribe({
+      next: (response: any) => {
+        this.category = response.data;
+      },
+      error: (error) => {
+        this._messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao carregar categoria',
+        });
+      },
     });
   }
 
@@ -61,22 +81,42 @@ export class CategoriesFormsComponent implements OnInit {
       return;
     }
 
-    this._categoryService.createCategory(this.category).subscribe({
-      next: (response) => {
-        this._messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Categoria criada com sucesso',
-        });
-        this.redirect();
-      },
-      error: (error) => {
-        this._messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Erro ao criar categoria',
-        });
-      },
-    });
+    if (this.action == 'edit') {
+      this._categoryService.updateCategory(this.category).subscribe({
+        next: (response) => {
+          this._messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Categoria atualizada com sucesso',
+          });
+          this.redirect();
+        },
+        error: (error) => {
+          this._messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao atualizar categoria',
+          });
+        },
+      });
+    } else if (this.action == 'add') {
+      this._categoryService.createCategory(this.category).subscribe({
+        next: (response) => {
+          this._messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Categoria criada com sucesso',
+          });
+          this.redirect();
+        },
+        error: (error) => {
+          this._messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao criar categoria',
+          });
+        },
+      });
+    }
   }
 }

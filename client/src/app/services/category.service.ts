@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Category } from '../models/category';
 
 @Injectable()
 export class CategoryService {
@@ -14,11 +15,11 @@ export class CategoryService {
     return this._http.get(`${this.apiFunction}/categories`);
   }
 
-  getCategory(categoryId: string) {
-    return this._http.get(`${this.apiFunction}/categories/${categoryId}`);
+  getCategory(categoryUid: string) {
+    return this._http.get(`${this.apiFunction}/categories/${categoryUid}`);
   }
 
-  createCategory(category: any) {
+  createCategory(category: Category) {
     let params = JSON.stringify(category);
     let headers = {
       'Content-Type': 'application/json',
@@ -29,14 +30,14 @@ export class CategoryService {
     });
   }
 
-  updateCategory(category: any) {
+  updateCategory(category: Category) {
     let params = JSON.stringify(category);
     let headers = {
       'Content-Type': 'application/json',
     };
 
     return this._http.put(
-      `${this.apiFunction}/categories/${category.categoryId}`,
+      `${this.apiFunction}/categories/${category.uid}`,
       params,
       {
         headers: headers,
@@ -44,7 +45,7 @@ export class CategoryService {
     );
   }
 
-  deleteCategory(categoryId: string) {
-    return this._http.delete(`${this.apiFunction}/categories/${categoryId}`);
+  deleteCategory(categoryUid: string) {
+    return this._http.delete(`${this.apiFunction}/categories/${categoryUid}`);
   }
 }

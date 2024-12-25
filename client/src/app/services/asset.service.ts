@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class AssetsService {
+export class AssetService {
   apiFunction: string;
 
   constructor(private _http: HttpClient) {

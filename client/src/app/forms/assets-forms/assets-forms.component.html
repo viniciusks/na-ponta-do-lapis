@@ -51,14 +51,50 @@
             />
         </div>
         <div class="w-49">
-            <label for="description">Descrição</label>
-            <input
-                id="description"
-                class="w-100"
-                placeholder="Digite a descrição do ativo..."
-                pInputText
-                [(ngModel)]="asset.description"
+            <label for="category">Categoria</label>
+            <p-dropdown
+                inputId="category"
+                optionLabel="name"
+                placeholder="Selecione a categoria"
+                styleClass="w-100"
+                [options]="categories"
+                [(ngModel)]="asset.category"
             />
         </div>
     </div>
+    <div class="row">
+        <div class="w-49">
+            <label for="payday">Dia do pagamento</label>
+            <p-calendar
+                inputId="payday"
+                dateFormat="dd/mm/yy"
+                styleClass="w-100"
+                [(ngModel)]="asset.payday"
+            />
+        </div>
+        <div class="w-49">
+            <label for="dividend">Dividendo</label>
+            <p-inputNumber
+                inputId="dividend"
+                mode="decimal"
+                class="w-100"
+                styleClass="w-100"
+                [minFractionDigits]="2"
+                [maxFractionDigits]="5"
+                [(ngModel)]="asset.dividend"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <button
+            pButton
+            pRipple
+            label="{{ asset.uid ? 'Atualizar' : 'Cadastrar' }}"
+            class="w-100 p-button-success"
+            (click)="onSubmit()"
+        ></button>
+    </div>
 </div>
+<ngx-spinner type="ball-scale-multiple" class="white-color">
+    Carregando...
+</ngx-spinner>

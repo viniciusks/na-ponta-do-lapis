@@ -35,6 +35,8 @@ export class CategoryAdminComponent implements OnInit {
   constructor(
     private _categoryService: CategoryService,
     private _spinnerService: NgxSpinnerService,
+    private _messageService: MessageService,
+    private _confirmationService: ConfirmationService,
   ) {
     this.categories = [];
   }
@@ -50,6 +52,46 @@ export class CategoryAdminComponent implements OnInit {
       this._spinnerService.hide().then(() => {
         this.categories = response.data;
       });
+    });
+  }
+
+  deleteCategory(categoryUid: string): void {
+    this._confirmationService.confirm({
+      message: 'Você tem certeza que deseja deletar esta Categoria?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        this._categoryService.deleteCategory(categoryUid).subscribe({
+          next: () => {
+            this._messageService.add({
+              severity: 'success',
+              summary: 'Deleted',
+              detail: 'Categoria deletada com sucesso',
+              life: 3000,
+            });
+            this.getCategories();
+          },
+          error: (error: any) => {
+            this._messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Erro ao deletar a categoria',
+              life: 3000,
+            });
+          },
+        });
+      },
+      reject: () => {
+        this._messageService.add({
+          severity: 'error',
+          summary: 'Rejected',
+          detail: 'Você rejeitou a ação',
+          life: 3000,
+        });
+      },
     });
   }
 }

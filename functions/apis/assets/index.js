@@ -7,6 +7,7 @@ const cors = require('cors');
 const db = admin.firestore();
 const logger = functions.logger;
 const app = express();
+const { v4: uuidv4 } = require('uuid');
 
 // Permitir automaticamente solicitações de cross-origin
 app.use(cors({ origin: true }));
@@ -82,6 +83,7 @@ app.get('/:uid', (req, res) => {
 });
 
 app.post('/', async (req, res) => {
+  let uid = uuidv4();
   let {
     name,
     description,
@@ -91,7 +93,6 @@ app.post('/', async (req, res) => {
     assetHistory,
     createdAt,
     updatedAt,
-    uid,
     dividend,
   } = req.body;
 
@@ -114,12 +115,12 @@ app.post('/', async (req, res) => {
     .then((docRef) => {
       let message = `Ativo criado com uid ${uid}`;
       logger.info(message);
-      res.status(201).json({ message: message, data: [] });
+      res.status(201).json({ message, data: [] });
     })
     .catch((error) => {
       let message = `Erro ao criar ativo`;
       logger.error(message);
-      res.status(500).json({ message: message, data: [] });
+      res.status(500).json({ message, data: [] });
     });
 });
 

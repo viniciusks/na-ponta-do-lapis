@@ -65,15 +65,43 @@ export class AssetsFormsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._activatedRoute.params.subscribe((params) => {
-      this.getCategories();
-      this.action = params['action'];
+    this._spinnerService.show().then(() => {
+      this._activatedRoute.params.subscribe((params) => {
+        this.action = params['action'];
+        if (this.action == 'edit') {
+          this._activatedRoute.queryParams.subscribe((queryParams) => {
+            this.getAsset(queryParams['uid']);
+          });
+        } else {
+          this.getCategories();
+        }
+      });
     });
   }
 
   getCategories() {
     this._categoryService.getCategories().subscribe((response: any) => {
-      this.categories = response.data;
+      this._spinnerService.hide().then(() => {
+        this.categories = response.data;
+      });
+    });
+  }
+
+  getAsset(uid: string) {
+    this._assetService.getAsset(uid).subscribe({
+      next: (response: any) => {
+        this.asset = response.data;
+      },
+      error: (error: any) => {
+        this._messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao carregar ativo',
+        });
+      },
+      complete: () => {
+        this.getCategories();
+      },
     });
   }
 
@@ -120,26 +148,49 @@ export class AssetsFormsComponent implements OnInit {
         return;
       }
 
-      this._assetService.createAsset(this.asset).subscribe({
-        next: (response: any) => {
-          this._spinnerService.hide().then(() => {
-            this._messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Ativo criado com sucesso',
+      if (this.action == 'add') {
+        this._assetService.createAsset(this.asset).subscribe({
+          next: (response: any) => {
+            this._spinnerService.hide().then(() => {
+              this._messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Ativo criado com sucesso',
+              });
             });
-          });
-        },
-        error: (error: any) => {
-          this._spinnerService.hide().then(() => {
-            this._messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: error.error.message,
+          },
+          error: (error: any) => {
+            this._spinnerService.hide().then(() => {
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: error.error.message,
+              });
             });
-          });
-        },
-      });
+          },
+        });
+      } else if (this.action == 'edit') {
+        this._assetService.updateAsset(this.asset).subscribe({
+          next: (response: any) => {
+            this._spinnerService.hide().then(() => {
+              this._messageService.add({
+                severity: 'success',
+                summary: 'Sucesso',
+                detail: 'Ativo atualizado com sucesso',
+              });
+            });
+          },
+          error: (error: any) => {
+            this._spinnerService.hide().then(() => {
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: error.error.message,
+              });
+            });
+          },
+        });
+      }
     });
   }
 }

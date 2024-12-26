@@ -68,7 +68,7 @@ export class CategoryAdminComponent implements OnInit {
           next: () => {
             this._messageService.add({
               severity: 'success',
-              summary: 'Deleted',
+              summary: 'Deletado',
               detail: 'Categoria deletada com sucesso',
               life: 3000,
             });
@@ -77,7 +77,7 @@ export class CategoryAdminComponent implements OnInit {
           error: (error: any) => {
             this._messageService.add({
               severity: 'error',
-              summary: 'Error',
+              summary: 'Erro',
               detail: 'Erro ao deletar a categoria',
               life: 3000,
             });
@@ -87,7 +87,7 @@ export class CategoryAdminComponent implements OnInit {
       reject: () => {
         this._messageService.add({
           severity: 'error',
-          summary: 'Rejected',
+          summary: 'Rejeitado',
           detail: 'Você rejeitou a ação',
           life: 3000,
         });

@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:na-ponta-do-lapis": "node dist/na-ponta-do-lapis/server/server.mjs"
+    "serve:ssr:na-ponta-do-lapis": "node dist/na-ponta-do-lapis/server/server.mjs",
+    "deploy": "cd .. && firebase deploy --only hosting:napontadolapis"
   },
   "private": true,
   "dependencies": {

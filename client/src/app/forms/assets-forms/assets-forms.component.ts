@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { Asset } from '../../models/asset';
@@ -45,6 +45,7 @@ export class AssetsFormsComponent implements OnInit {
     private _spinnerService: NgxSpinnerService,
     private _messageService: MessageService,
     private _assetService: AssetService,
+    private _router: Router,
   ) {
     this.action = '';
     this.asset = {
@@ -91,6 +92,7 @@ export class AssetsFormsComponent implements OnInit {
     this._assetService.getAsset(uid).subscribe({
       next: (response: any) => {
         this.asset = response.data;
+        this.asset.payday = new Date(this.asset.payday);
       },
       error: (error: any) => {
         this._messageService.add({
@@ -106,39 +108,72 @@ export class AssetsFormsComponent implements OnInit {
   }
 
   validateForm() {
-    if (this.asset.name === '') {
+    const showError = (detail: string) => {
       this._messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'O nome é obrigatório',
+        detail,
       });
+    };
+
+    if (this.asset.name === '') {
+      showError('O nome é obrigatório');
       return false;
     }
     if (this.asset.description === '') {
-      this._messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'A descrição é obrigatória',
-      });
+      showError('A descrição é obrigatória');
       return false;
     }
     if (this.asset.price === 0) {
-      this._messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'O preço é obrigatório',
-      });
+      showError('O preço é obrigatório');
       return false;
     }
     if (this.asset.category.name === '') {
-      this._messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Categoria é obrigatória',
-      });
+      showError('Categoria é obrigatória');
       return false;
     }
     return true;
+  }
+
+  redirect() {
+    setTimeout(() => {
+      this._router.navigate(['/admin/assets']);
+    }, 2000);
+  }
+
+  handleResponse(response: any, successMessage: string) {
+    this._spinnerService.hide().then(() => {
+      this._messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: successMessage,
+      });
+      this.redirect();
+    });
+  }
+
+  handleError(error: any) {
+    this._spinnerService.hide().then(() => {
+      this._messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: error.error.message,
+      });
+    });
+  }
+
+  registerAssetHistory() {
+    if (this.asset.assetHistory.length > 0) {
+      this.asset.assetHistory.forEach((history) => {
+        history.date = new Date(history.date);
+      });
+    }
+
+    this.asset.assetHistory.push({
+      price: this.asset.price,
+      dividend: this.asset.dividend,
+      date: new Date(),
+    });
   }
 
   onSubmit() {
@@ -148,49 +183,24 @@ export class AssetsFormsComponent implements OnInit {
         return;
       }
 
-      if (this.action == 'add') {
-        this._assetService.createAsset(this.asset).subscribe({
-          next: (response: any) => {
-            this._spinnerService.hide().then(() => {
-              this._messageService.add({
-                severity: 'success',
-                summary: 'Sucesso',
-                detail: 'Ativo criado com sucesso',
-              });
-            });
-          },
-          error: (error: any) => {
-            this._spinnerService.hide().then(() => {
-              this._messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: error.error.message,
-              });
-            });
-          },
-        });
-      } else if (this.action == 'edit') {
-        this._assetService.updateAsset(this.asset).subscribe({
-          next: (response: any) => {
-            this._spinnerService.hide().then(() => {
-              this._messageService.add({
-                severity: 'success',
-                summary: 'Sucesso',
-                detail: 'Ativo atualizado com sucesso',
-              });
-            });
-          },
-          error: (error: any) => {
-            this._spinnerService.hide().then(() => {
-              this._messageService.add({
-                severity: 'error',
-                summary: 'Erro',
-                detail: error.error.message,
-              });
-            });
-          },
-        });
-      }
+      this.registerAssetHistory();
+      console.log(this.asset);
+
+      const request =
+        this.action === 'add'
+          ? this._assetService.createAsset(this.asset)
+          : this._assetService.updateAsset(this.asset);
+
+      request.subscribe({
+        next: (response: any) =>
+          this.handleResponse(
+            response,
+            this.action === 'add'
+              ? 'Ativo criado com sucesso'
+              : 'Ativo atualizado com sucesso',
+          ),
+        error: (error: any) => this.handleError(error),
+      });
     });
   }
 }

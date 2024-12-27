@@ -22,30 +22,36 @@
             <tr>
                 <th>UID</th>
                 <th>Nome</th>
-                <th>Ativo</th>
+                <th>Preço</th>
+                <th>Dividendo</th>
                 <th>Ações</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-asset>
             <tr>
-                <td>{{ user.uid }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.isEnable ? "Ativo" : "Desativado" }}</td>
+                <td>{{ asset.uid }}</td>
+                <td>{{ asset.name }}</td>
+                <td>{{ asset.price }}</td>
+                <td>{{ asset.dividend }}</td>
                 <td>
                     <p-button
                         icon="pi pi-pencil"
                         iconPos="left"
                         styleClass="p-button-warning mr-05"
-                        routerLink="/admin/users/edit"
-                        [queryParams]="{ uid: user.uid }"
+                        routerLink="/admin/assets/edit"
+                        [queryParams]="{ uid: asset.uid }"
                     ></p-button>
                     <p-button
                         icon="pi pi-trash"
                         iconPos="left"
                         styleClass="p-button-danger"
+                        (onClick)="deleteAsset(asset.uid)"
                     ></p-button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
+<ngx-spinner type="ball-scale-multiple" class="white-color">
+    Carregando...
+</ngx-spinner>

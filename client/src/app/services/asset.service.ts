@@ -35,13 +35,9 @@ export class AssetService {
       'Content-Type': 'application/json',
     };
 
-    return this._http.put(
-      `${this.apiFunction}/assets/${asset.assetId}`,
-      params,
-      {
-        headers: headers,
-      },
-    );
+    return this._http.put(`${this.apiFunction}/assets/${asset.uid}`, params, {
+      headers: headers,
+    });
   }
 
   deleteAsset(assetId: string) {

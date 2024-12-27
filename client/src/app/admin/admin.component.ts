@@ -25,6 +25,16 @@ export class AdminComponent implements OnInit {
             icon: 'pi pi-users',
             routerLink: '/admin/users',
           },
+          {
+            label: 'Ativos',
+            icon: 'pi pi-dollar',
+            routerLink: '/admin/assets',
+          },
+          {
+            label: 'Categorias',
+            icon: 'pi pi-book',
+            routerLink: '/admin/categories',
+          },
         ],
       },
       {

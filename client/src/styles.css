@@ -221,3 +221,7 @@
   font-weight: 900;
   font-style: italic;
 }
+
+.white-color {
+  color: var(--white-color);
+}

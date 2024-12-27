@@ -1,0 +1,49 @@
+<p-toast />
+<div class="d-flex align-items justify-content-space-between">
+    <div>
+        <h1>{{ category.uid ? "Atualização" : "Cadatro" }} de Categoria</h1>
+    </div>
+    <div>
+        <p-button
+            icon="pi pi-arrow-left"
+            iconPos="left"
+            label="Voltar"
+            styleClass="p-button-secondary"
+            routerLink="/admin/categories"
+        ></p-button>
+    </div>
+</div>
+<hr />
+<div class="min-w-50">
+    <div class="row">
+        <div class="w-49">
+            <label for="name">Nome</label>
+            <input
+                id="name"
+                class="w-100"
+                placeholder="Digite o nome da categoria..."
+                pInputText
+                [(ngModel)]="category.name"
+            />
+        </div>
+        <div class="w-49">
+            <label for="description">Descrição</label>
+            <input
+                id="description"
+                class="w-100"
+                placeholder="Digite a descrição da categoria..."
+                pInputText
+                [(ngModel)]="category.description"
+            />
+        </div>
+    </div>
+    <div class="row mt-1">
+        <button
+            pButton
+            pRipple
+            label="{{ category.uid ? 'Atualizar' : 'Cadastrar' }}"
+            class="w-100 p-button-success"
+            (click)="onSubmit()"
+        ></button>
+    </div>
+</div>

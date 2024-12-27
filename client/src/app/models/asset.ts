@@ -1,10 +1,11 @@
 import { AssetHistoryItem } from './assetHistoryItem';
+import { Category } from './category';
 
 export interface Asset {
   name: string;
   description: string;
   price: number;
-  categoryUid: string; // This is a foreign key
+  category: Category;
   payday: Date;
   assetHistory: AssetHistoryItem[];
   createdAt: Date;

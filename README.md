@@ -28,21 +28,49 @@ git clone https://github.com/seu-usuario/na-ponta-do-lapis.git
 cd na-ponta-do-lapis
 ```
 
-3. Instale as dependências:
+3. Instale as dependências dos microsserviços serveless:
 
 ```bash
+cd functions
+npm install
+```
+
+4. Instale as dependências do cliente frontend:
+
+```bash
+cd client
 npm install
 ```
 
 ## Uso
 
-Para iniciar o sistema, execute o comando:
+Para iniciar o sistema, é necessário seguir os seguintes passos:
+
+1. Inicie os microsserviços serveless:
 
 ```bash
-npm start
+cd functions
+npm run serve
 ```
 
-Acesse o sistema através do navegador no endereço `http://localhost:3000`.
+2. Inicie o cliente do frontend:
+
+```bash
+cd client
+npm run start
+```
+
+Acesse o sistema (frontend) através do navegador no endereço `http://localhost:4200`.
+
+O backend são microsserviços serveless, eles rodam como functions dentro da GCP através do Firebase. Para conseguir acessar os logs ou analisar a infraestrutura que está de pé, você acessar através do navegador o seguinte endereço `http://localhost:4000`.
+
+Nesse endereço estão rodando os seguintes emuladores que o Firebase sobe, eles são:
+
+- App Hosting;
+- Authentication;
+- Firestore;
+- Functions;
+- Storage;
 
 ## Contribuição
 

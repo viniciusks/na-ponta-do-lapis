@@ -1,27 +1,21 @@
-# NaPontaDoLapis
+# Na Ponta do Lápis - Firebase Functions e Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.4.
+Este projeto contém funções Firebase para a aplicação "Na Ponta do Lápis" e um frontend em Angular. As funções são implementadas usando o Firebase Functions, Firestore e Express.js para criar APIs RESTful. O frontend é desenvolvido com Angular.
 
-## Development server
+## Configuração
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+É necessário preparar o ambiente para conseguir rodar o projeto localmente. Antes de rodar o projeto `client` é _importante_ rodar os `microsserviços serveless`.
 
-## Code scaffolding
+Para rodar o projeto client, siga os seguintes passos:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Instale as dependências:
 
-## Build
+```bash
+npm install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. Rode o projeto localmente:
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+npm run start
+```
